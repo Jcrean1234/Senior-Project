@@ -39,7 +39,7 @@ def cont_sniff(packet):
 	return stop_sniff
 	
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description = 'aircrack.py') #uses aircrack-ng
+	parser = argparse.ArgumentParser(description = 'Uses aircrack-ng') 
 	args = parser.parse_args()
 	networks = {}
 	print('CTRL+c to cancel')
