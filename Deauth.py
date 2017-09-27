@@ -10,6 +10,7 @@ import threading
 
 def add(packet, network):
 	#checks for hidden networks
+	#ESSID identifies networks, BSSID identifies access points and their users
 	essid = packet[Dot11Elt].info if '\x00' not in packet [Dot11Elt].info and packet [Dot11Elt].info != '' else 'Hidden SSID'
 	bssid = packet[Dot11].addr3
 	channel = int(ord(packet[Dot11Elt:3].info))
@@ -46,5 +47,7 @@ if __name__ == "__main__":
 	print '='*100 + '\n{0:5}\t{1:30}\t{2:30}\n'.format('Channel', 'ESSID', 'BSSID') + '='*100
 	channel_hop = Process(target = switch_channel, args=(args.interface,))
 	channel_hop.start()
+	#stop signal
 	signal.signal(signal.SIGINT, stop_search)
+	#lambda function
 	sniff(lfilter = lambda x: (x,haslayer(Dot11Beacon) or x.haslayer(Dot11ProbeResp)), stop_filter=cont_sniff, prn=lambda x: add(x, networks))
